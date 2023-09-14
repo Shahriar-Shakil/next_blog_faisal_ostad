@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Toaster,toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 export default function Register() {
@@ -12,6 +12,7 @@ export default function Register() {
   const router = useRouter();
 
   const handleSubmit = async (e) => {
+    console.log("working here");
     e.preventDefault();
     try {
       setLoading(true);
@@ -43,45 +44,45 @@ export default function Register() {
 
   return (
     <div className="container">
-    <div className="d-flex row justify-content-center align-items-center vh-100">
-      <div className="col-lg-5 bg-light p-5 shadow">
-        <p className="lead">Register</p>
+      <div className="d-flex row justify-content-center align-items-center vh-100">
+        <div className="col-lg-5 bg-light p-5 shadow">
+          <p className="lead">Register</p>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="form-control mb-2"
-            placeholder="Enter your name"
-          />
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="form-control mb-2"
+              placeholder="Enter your name"
+            />
 
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="form-control mb-2"
-            placeholder="Enter your email"
-          />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="form-control mb-2"
+              placeholder="Enter your email"
+            />
 
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="form-control mb-2"
-            placeholder="Enter your password"
-          />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="form-control mb-2"
+              placeholder="Enter your password"
+            />
 
-          <button
-            className="btn btn-primary"
-            disabled={loading || !name || !email || !password}
-          >
-            {loading ? "Please wait..." : "Submit"}
-          </button>
-        </form>
+            <button
+              className="btn btn-primary"
+              disabled={loading || !name || !email || !password}
+            >
+              {loading ? "Please wait..." : "Submit"}
+            </button>
+          </form>
+        </div>
       </div>
+      <Toaster />
     </div>
-    <Toaster/>
-  </div>
   );
 }

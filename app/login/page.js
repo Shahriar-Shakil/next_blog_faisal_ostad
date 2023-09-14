@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import {toast,Toaster} from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { toast, Toaster } from "react-hot-toast";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 export default function Login() {
@@ -10,7 +10,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -25,8 +26,8 @@ export default function Login() {
         toast.error(result.error);
       } else {
         toast.success("Login successful");
-      
-        router.push("/");
+
+        router.push(callbackUrl);
       }
     } catch (err) {
       console.log(err);
@@ -65,10 +66,20 @@ export default function Login() {
               {loading ? "Please wait..." : "Submit"}
             </button>
           </form>
-
+          <div className="row">
+            <div className="col">
+              <button
+                onClick={() => signIn("google", { callbackUrl })}
+                className="btn btn-danger"
+              >
+                Login With Google
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <Toaster/>
+
+      <Toaster />
     </div>
   );
 }
