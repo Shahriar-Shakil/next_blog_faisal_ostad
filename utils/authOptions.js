@@ -14,6 +14,7 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+
     CredentialsProvider({
       async authorize(credentials, req) {
         dbConnect();
@@ -34,7 +35,8 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user }) {
+      console.log(user);
       dbConnect();
       const { email } = user;
       let dbUser = await User.findOne({ email });
@@ -45,6 +47,17 @@ export const authOptions = {
           image: user.image,
         });
       }
+      return true;
+    },
+    async jwt({ token, user }) {
+      const userByEmail = await User.findOne({ email: token.email });
+      userByEmail.password = undefined;
+      token.user = userByEmail;
+      return token;
+    },
+    session: async ({ session, token }) => {
+      session.user = token.user;
+      return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
