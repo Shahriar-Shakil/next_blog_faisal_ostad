@@ -36,12 +36,13 @@ export async function POST(req) {
     if (token.user.role !== "admin") {
       return NextResponse.json({ err: "Not authorized " }, { status: 401 });
     }
+
     const blog = await Blog.create({
       title,
       content,
       category,
       image: image ? image : null,
-      postBy: token.user._id,
+      postedBy: token.user._id,
       slug: slugify(title),
     });
     return NextResponse.json({ blog }, { status: 200 });
