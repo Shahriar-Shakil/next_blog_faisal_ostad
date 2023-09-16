@@ -8,7 +8,7 @@ export async function GET(req) {
   const searchParams = queryString.parseUrl(req.url).query;
   const { page } = searchParams || {};
   const pageSize = 2;
-
+  // console.log("searchParams => ", searchParams);
   try {
     const currentPage = Number(page) || 1;
     const skip = (currentPage - 1) * pageSize;
@@ -21,7 +21,7 @@ export async function GET(req) {
     return NextResponse.json({
       blogs,
       currentPage,
-      totalPage: Math.ceil(blogCount / pageSize),
+      totalPages: Math.ceil(blogCount / pageSize),
     });
   } catch (error) {
     return NextResponse.json({ err: error.message }, { status: 500 });
